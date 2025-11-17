@@ -16,8 +16,8 @@
 
 .div-schedule {
   /* nada aqui precisa */
-  display: grid;
-  justify-content: space-between;
+  /* display: grid;
+  justify-content: space-between; */
 }
 h1 {
   color: #fff;

@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const api = axios.create({
-    baseURL: 'http://localhost:8085/barber-application/v1'
+    baseURL: 'http://localhost:8085/barber-application'
 })
 
 export default api
