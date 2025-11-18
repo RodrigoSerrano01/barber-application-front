@@ -4,9 +4,12 @@ import api from "../../services/api";
 import './style.css'
 
 
-function App() {
-    
-    const inputName = useRef();
+
+
+function Login() {
+  const [clients, setClient] = useState([]);
+
+  const inputName = useRef();
   const inputEmail = useRef();
   const inputDate = useRef();
   const inputPhone = useRef();
@@ -15,33 +18,71 @@ function App() {
   const inputUserRole = useRef();
 
 
-  async function createUsers() {
-    await api.post("/auth/register", {
-        name: inputName.current.value,
-        date: inputDate.current.value,
-        phone: inputPhone.current.value,
+  async function Login() {
+    await api.post("/auth/login", {
+      name: inputName.current.value,
+      email: inputEmail.current.value,
+      password: inputPassword.current.value,
+      userRole: inputUserRole.current.value
+    });
+  }
+  async function getClient(id) {
+    try {
+      const response = await api.get(`v1/clients/${id}/find`)
+      setClient(response.data);
+      console.log(response.data);
+    } catch (error) {
+      console.error("Error fetching clients:", error);
+    }
+  }
+
+  async function clientLogin() {
+    await api.post("/auth/login", {
         email: inputEmail.current.value,
         password: inputPassword.current.value,
-        cpf: inputCpf.current.value,
         userRole: inputUserRole.current.value
+        
     });
-
+    getClient("691bb51975fde95e4d21736c");
   }
+
+  //  useEffect(() => {
+  //   getClient();
+  // }, []);
   return (
-    <div className = "conteiner" >
-            <form>
-                <h1>Cadastro de Usuario</h1>
-                <input placeholder="Nome" name="nome" type="text" ref={inputName} />
-                <input placeholder="Email" name="email" type="text" ref={inputEmail} />
-               <input placeholder="Data de nascimento" name="date" type="text" ref={inputDate} />
-               <input placeholder="Telefone" name="phone" type="text" ref={inputPhone} />
-               <input placeholder="CPF" name="cpf" type="text" ref={inputCpf} />
-               <input placeholder="Senha" name="password" type="text" ref={inputPassword} />
-               <input placeholder="Role" name="userRole" type="text" ref={inputUserRole} />
-               <button type="button"onClick={createUsers}>Cadastrar`</button>
-            </form>
-    </div >
-    );
+
+
+    <div className="backgroud">
+      <div className="v1_4">
+        <h1 className="welcome">BEM VINDO</h1>
+
+      </div>
+      <div className="v1_29"></div>
+    </div>
+
+
+
+
+     /* <form>
+        <h1>Login</h1>
+        <input placeholder="Email" name="email" type="text" ref={inputEmail} />
+        <input placeholder="Senha" name="password" type="text" ref={inputPassword} />
+        <input placeholder="Role" name="userRole" type="text" ref={inputUserRole} />
+        <button type="button" onClick={clientLogin}>Cadastrar</button>
+      </form>
+      {clients.map((client) => (
+        <div key={client.id} className="card">
+          <div>
+            <p>Nome: <span>{client.name}</span></p>
+            <p>Email: <span>{client.email}</span></p>
+            <p>CPF: <span>{client.cpf}</span></p>
+            <p>Data: <span>{client.date}</span></p>
+            <p>Phone: <span>{client.phone}</span></p>
+            <p>User role: <span>{client.userRole}</span></p>
+          </div>
+        </div>
+      ))} */
+  );
 
 }
-export default App;
+export default Login;
