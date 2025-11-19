@@ -3,6 +3,8 @@ import api from "../../services/api";
 
 import './style.css'
 
+import logo from './images/image.png';
+
 
 
 
@@ -53,11 +55,24 @@ function Login() {
 
 
     <div className="backgroud">
+      <section className="logo-area">
       <div className="v1_4">
-        <h1 className="welcome">BEM VINDO</h1>
-
+        <p className="welcome"><b>BEM VINDO!</b></p>
+        <img className ="logo-image" src= {logo} alt = "Logo"></img>
+        <p className="barber-tittle">BARBER<br/> SHOP</p>
+        <p className=" since">since 2015</p>
+        <button type= "button"className="signup-button">CADASTRO</button>
       </div>
-      <div className="v1_29"></div>
+      </section>
+      <section className="login-area">
+      <div className="v1_29">
+      <p className="login"><b>LOGIN</b></p>
+        <div className="v1_45"><input className="v1_48" placeholder="Email" name="email" type="text" ref={inputEmail} /></div>
+        <div className="v1_46"><input className="v1_49" placeholder="Senha" name="password" type="text" ref={inputPassword} /></div>
+        <input placeholder="Role" name="userRole" type="text" ref={inputUserRole} />
+        <button type="button" onClick={clientLogin}>Cadastrar</button>
+      </div>
+      </section>
     </div>
 
 
