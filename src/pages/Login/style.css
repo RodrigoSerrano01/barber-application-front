@@ -1,8 +1,12 @@
-* {
+/* * {
   box-sizing: border-box;
 }
 body {
   font-size: 14px;
+}
+
+.form-login{
+
 }
 .backgroud {
   width: 100%;
@@ -59,9 +63,9 @@ font-weight: bolder;
   border-radius: 10px;
   font-weight: 700;
   display: flex;
-  justify-content: center; /* horizontal */
-  align-items: center;     /* vertical */
-  padding: 10px 20px;     /* sem aspas */
+  justify-content: center; 
+  align-items: center;     
+  padding: 10px 20px;     
   cursor: pointer;
 }
  
@@ -88,7 +92,7 @@ font-weight: bolder;
 .v1_4 {
   font-family: 'Kanit', sans-serif;
   display: flex;
-  justify-content: center; /* centro horizontal */
+  justify-content: center;
   align-items: center; 
   width: 530px;
   height: 755px;
@@ -106,7 +110,7 @@ font-weight: bolder;
 .v1_29 {
   font-family: 'Kanit', sans-serif;
   display: flex;
-  justify-content: center; /* centro horizontal */
+  justify-content: center; 
   align-items: center; 
   width: 854px;
   height: 755px;
@@ -172,4 +176,180 @@ font-weight: bolder;
   font-size: 24px;
   opacity: 1;
   text-align: left;
+} 
+*/
+
+
+/* Reset básico */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Kanit', sans-serif;
+  font-size: 14px;
+  background: rgba(227,103,94,1);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
+/* Container principal */
+.login-area {
+  display: flex;
+  width: 1350px;
+  max-width: 95%; /* não ultrapassa 95% da tela */
+  height: 755px;
+  border-radius: 25px;
+  overflow: hidden;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  margin: 0 auto; /* centraliza horizontalmente */
+}
+
+
+
+/* Lado esquerdo */
+.left {
+  flex: 1;
+  background: rgba(33,43,53,1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  padding: 0px;
+  text-align: center;
+}
+
+.left .welcome {
+  font-size: 38px;
+  font-weight: 900;
+  margin-bottom: 20px;
+}
+
+.left .logo-image {
+  width: 128px;
+  margin-bottom: 20px;
+}
+
+.left .barber-tittle {
+  font-size: 55px;
+  font-weight: 900;
+  line-height: 1;
+  margin-bottom: 10px;
+}
+
+.left .since {
+  font-size: 16px;
+  margin-bottom: 30px;
+}
+
+.left .signup-button {
+  background-color: #CA8254;
+  color: rgba(33,43,53,1);
+  font-size: 22px;
+  font-weight: 700;
+  width: 200px;
+  height: 50px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.left .signup-button:hover {
+  opacity: 0.8;
+}
+
+/* Lado direito */
+.right {
+  flex: 1;
+  background: rgba(217,217,217,1);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+/* Título LOGIN */
+.right .login {
+  font-size: 38px;
+  font-weight: 900;
+  color: rgba(33,43,53,1);
+  margin-bottom: 40px;
+}
+
+/* Formulário */
+.form-login {
+  background-color: transparent;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 400px;
+  gap: 20px;
+}
+
+/* Inputs */
+.form-login input {
+  width: 100%;
+  height: 44px;
+  padding: 0 15px;
+  font-size: 18px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(192,191,191,1);
+  color: #333;
+}
+
+.form-login select {
+  width: 100%;
+  height: 44px;
+  padding: 0 15px;
+  font-size: 18px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(192,191,191,1);
+  color: #333;
+}
+
+.form-login input::placeholder {
+  color: rgba(122,120,120,1);
+}
+
+/* Botão */
+.form-login button {
+  width: 100%;
+  height: 50px;
+  border: none;
+  border-radius: 10px;
+  background-color: #CA8254;
+  color: rgba(33,43,53,1);
+  font-size: 22px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.form-login button:hover {
+  opacity: 0.8;
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+  .login-area {
+    flex-direction: column;
+    height: auto;
+  }
+
+  .left, .right {
+    width: 100%;
+    border-radius: 25px;
+  }
+
+  .form-login input {
+    height: 50px;
+  }
 }
