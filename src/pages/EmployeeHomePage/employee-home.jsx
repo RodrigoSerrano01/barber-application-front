@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import api from "../../services/api";
 import "./style.css";
 
-function Home() {
+function HomeEmployee() {
   const navigate = useNavigate();
-  const [client, setClient] = useState(null);
+  const [employee, setEmployee] = useState(null);
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -18,62 +18,68 @@ function Home() {
       return;
     }
 
-    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-
-    async function getClientAndServices() {
+    async function getEmployeeAndServices() {
       try {
-        const clientResponse = await api.get(`/v1/clients/${id}/find`);
-        setClient(clientResponse.data);
+        console.log("Token:", token);
+        console.log("ID:", id);
 
-        const servicesResponse = await api.get("/v1/services"); // ajuste para seu endpoint de serviços
+        // Requisição do funcionário com token no header
+        const employeeResponse = await api.get(`/v1/employee/${id}/find`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setEmployee(employeeResponse.data);
+
+        // Requisição de serviços
+        const servicesResponse = await api.get("/v1/services");
         setServices(servicesResponse.data);
+
       } catch (error) {
         console.error("Erro ao carregar dados:", error);
+        if (error.response) {
+          console.error("Status:", error.response.status);
+          console.error("Data:", error.response.data);
+        }
       } finally {
         setLoading(false);
       }
     }
 
-    getClientAndServices();
+    getEmployeeAndServices();
   }, [token, id, navigate]);
 
-  if (loading) {
-    return <p>Carregando...</p>;
-  }
-
-  if (!client) {
-    return <p>Não foi possível carregar os dados do cliente.</p>;
-  }
+  if (loading) return <p>Carregando...</p>;
+  if (!employee) return <p>Não foi possível carregar os dados do funcionário.</p>;
 
   return (
     <div className="login-area">
-      {/* Coluna esquerda - Serviços */}
       <div className="left">
         <h2 className="welcome">Serviços Disponíveis</h2>
         {services.map((service) => (
           <div key={service.id} className="service-card">
             <h3>{service.name}</h3>
             <p>{service.description}</p>
-            <p><b>Preço:</b> {service.value}<b>R$</b></p>
+            <p><b>Preço:</b> {service.value} R$</p>
           </div>
         ))}
       </div>
 
-      {/* Coluna direita - Informações do Cliente */}
       <div className="right">
-        <h2 className="login">Informações do Cliente {client.name} </h2>
+        <h2 className="login">Informações do Funcionário {employee.name}</h2>
         <div className="client-info">
-          <p><b>Email:</b> {client.email}</p>
-          <p><b>Telefone:</b> {client.phone}</p>
-          <p><b>CPF:</b> {client.cpf}</p>
-          <p><b>Nascimento:</b> {client.date}</p>
-          <p><b>Tipo de usuário:</b> {client.userRole}</p>
+          <p><b>Email:</b> {employee.email}</p>
+          <p><b>Telefone:</b> {employee.phone}</p>
+          <p><b>CPF:</b> {employee.cpf}</p>
+          <p><b>Nascimento:</b> {employee.date}</p>
+          <p><b>Tipo de usuário:</b> {employee.userRole}</p>
         </div>
         <button
           className="form-login-button"
           onClick={() => {
             localStorage.removeItem("token");
             localStorage.removeItem("id");
+            localStorage.removeItem("userRole");
             navigate("/");
           }}
         >
@@ -84,4 +90,4 @@ function Home() {
   );
 }
 
-export default Home;
+export default HomeEmployee;
