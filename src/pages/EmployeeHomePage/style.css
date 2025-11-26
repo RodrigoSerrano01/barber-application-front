@@ -1,46 +1,72 @@
-.service-card {
-  background-color: rgba(217,217,217,1); /* mesma tonalidade da coluna direita */
-  color: #212121;
-  border-radius: 10px;
-  padding: 15px;
-  margin: 10px 0;
-  text-align: center;
-  height: 80px; /* altura fixa para todos os cards */
-  width: 200px;
+/* Container principal */
+.login-area {
   display: flex;
-  flex-direction: column;
-  justify-content: space-between; /* distribui título, descrição e preço uniformemente */
+  gap: 20px;
+  padding: 20px;
+  height: 100vh;
+  background-color: #f5f5f5;
+}
+
+/* Coluna esquerda - Serviços */
+.left {
+  flex: 1;
+  overflow-y: auto;
 }
 
 .left .welcome {
   font-size: 28px;
   margin-bottom: 20px;
-  color: #fff;
+  color: #212b35; /* texto escuro */
 }
 
-.right .client-info {
-  background-color: rgba(192,191,191,1); /* mantém o fundo claro */
-  padding: 30px;
+.service-card {
+  background-color: rgba(217,217,217,1);
+  color: #212121;
+  border-radius: 10px;
+  padding: 15px;
+  margin: 10px 0;
+  text-align: center;
+  height: 80px;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Coluna direita - Informações do funcionário + agenda */
+.right {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  max-height: 100vh;
+  overflow-y: auto; /* scroll em toda a coluna */
+  gap: 20px;
+  padding-right: 10px;
+}
+
+/* Informações do funcionário */
+.client-info {
+  background-color: rgba(192,191,191,1);
+  padding: 20px;
   border-radius: 10px;
   width: 100%;
   max-width: 400px;
-  margin-bottom: 20px;
+  color: #212b35;
   display: flex;
   flex-direction: column;
-  gap: 15px; /* espaçamento entre linhas */
+  gap: 15px;
 }
 
-.right .client-info p {
-  font-size: 18px; /* maior que antes */
-  color: rgba(33,43,53,1); /* azul escuro semelhante ao login */
+.client-info p {
+  font-size: 18px;
   font-weight: 600;
 }
 
-.right .client-info b {
-  font-weight: 700; /* mantém destaque nos labels */
-  color: rgba(33,43,53,1); /* azul escuro também */
+.client-info b {
+  font-weight: 700;
 }
 
+/* Botão de logout */
 .form-login-button {
   width: 100%;
   max-width: 400px;
@@ -48,7 +74,7 @@
   border: none;
   border-radius: 10px;
   background-color: #CA8254;
-  color: rgba(33,43,53,1);
+  color: #212b35;
   font-size: 18px;
   font-weight: 700;
   cursor: pointer;
@@ -57,4 +83,79 @@
 .form-login-button:hover {
   opacity: 0.8;
   transition: 0.3s;
+}
+
+/* Lista de horários / calendário */
+.schedule-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: flex-start;
+}
+
+/* Card de cada dia */
+.schedule-card {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 15px;
+  width: 250px;
+  box-shadow: 0 0 6px rgba(0,0,0,0.1);
+}
+
+/* Título do dia da semana */
+.schedule-day {
+  font-size: 20px;
+  font-weight: bold;
+  color: #1f4c7a;
+}
+
+/* Dia não trabalhando */
+.not-working {
+  color: #a33;
+  font-weight: bold;
+}
+
+/* Slots de horários */
+.slots-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.slot {
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  text-align: center;
+  color: #212b35;
+  cursor: pointer;
+}
+
+.slot.available {
+  background-color: #d1ffd1;
+  border-color: #7cd97c;
+}
+
+.slot.unavailable {
+  background-color: #ffe0e0;
+  border-color: #e59b9b;
+}
+
+/* Scrollbars estilizadas (opcional) */
+.left::-webkit-scrollbar,
+.right::-webkit-scrollbar {
+  width: 8px;
+}
+
+.left::-webkit-scrollbar-thumb,
+.right::-webkit-scrollbar-thumb {
+  background-color: rgba(0,0,0,0.2);
+  border-radius: 4px;
+}
+
+.left::-webkit-scrollbar-track,
+.right::-webkit-scrollbar-track {
+  background-color: transparent;
 }

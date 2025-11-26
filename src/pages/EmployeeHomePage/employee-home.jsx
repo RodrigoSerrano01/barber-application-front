@@ -8,30 +8,24 @@ function HomeEmployee() {
   const [employee, setEmployee] = useState(null);
   const [services, setServices] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
 
   const token = localStorage.getItem("token");
   const id = localStorage.getItem("id");
 
   useEffect(() => {
     if (!token || !id) {
-      navigate("/"); // usuário não logado → volta para Login
+      navigate("/");
       return;
     }
 
     async function getEmployeeAndServices() {
       try {
-        console.log("Token:", token);
-        console.log("ID:", id);
-
-        // Requisição do funcionário com token no header
         const employeeResponse = await api.get(`/v1/employee/${id}/find`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         setEmployee(employeeResponse.data);
 
-        // Requisição de serviços
         const servicesResponse = await api.get("/v1/services");
         setServices(servicesResponse.data);
 
@@ -52,6 +46,32 @@ function HomeEmployee() {
   if (loading) return <p>Carregando...</p>;
   if (!employee) return <p>Não foi possível carregar os dados do funcionário.</p>;
 
+  // Toggle disponibilidade de um slot
+  const toggleSlot = (dayIndex, slotIndex) => {
+    const updatedEmployee = { ...employee };
+    const slot = updatedEmployee.workSchedules[dayIndex].slots[slotIndex];
+    slot.available = !slot.available;
+    setEmployee(updatedEmployee);
+  };
+
+  // Salvar alterações no backend
+  const saveSchedule = async () => {
+    setSaving(true);
+    try {
+      await api.put(
+        `/v1/employee/${id}/work-schedules`,
+        { workSchedules: employee.workSchedules },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
+      alert("Horários atualizados com sucesso!");
+    } catch (error) {
+      console.error("Erro ao salvar horários:", error);
+      alert("Erro ao salvar horários.");
+    } finally {
+      setSaving(false);
+    }
+  };
+
   return (
     <div className="login-area">
       <div className="left">
@@ -66,25 +86,61 @@ function HomeEmployee() {
       </div>
 
       <div className="right">
-        <h2 className="login">Informações do Funcionário {employee.name}</h2>
         <div className="client-info">
+          <h2 className="login">Informações do Funcionário {employee.name}</h2>
           <p><b>Email:</b> {employee.email}</p>
           <p><b>Telefone:</b> {employee.phone}</p>
           <p><b>CPF:</b> {employee.cpf}</p>
           <p><b>Nascimento:</b> {employee.date}</p>
           <p><b>Tipo de usuário:</b> {employee.userRole}</p>
+          <button
+            className="form-login-button"
+            onClick={() => {
+              localStorage.removeItem("token");
+              localStorage.removeItem("id");
+              localStorage.removeItem("userRole");
+              navigate("/");
+            }}
+          >
+            Sair
+          </button>
         </div>
-        <button
-          className="form-login-button"
-          onClick={() => {
-            localStorage.removeItem("token");
-            localStorage.removeItem("id");
-            localStorage.removeItem("userRole");
-            navigate("/");
-          }}
-        >
-          Sair
-        </button>
+
+        <div className="schedule-list">
+          {employee.workSchedules && employee.workSchedules.length > 0 ? (
+            employee.workSchedules.map((schedule, dayIndex) => (
+              <div key={dayIndex} className="schedule-card">
+                <div className={`schedule-day ${!schedule.working ? 'not-working' : ''}`}>
+                  {schedule.weekDay} {schedule.working ? "" : "(Não trabalha)"}
+                </div>
+                <div className="slots-container">
+                  {schedule.slots && schedule.slots.length > 0 ? (
+                    schedule.slots.map((slot, slotIndex) => (
+                      <div
+                        key={slotIndex}
+                        className={`slot ${slot.available ? "available" : "unavailable"}`}
+                        onClick={() => toggleSlot(dayIndex, slotIndex)}
+                      >
+                        {slot.time}
+                      </div>
+                    ))
+                  ) : (
+                    <p>Nenhum horário disponível</p>
+                  )}
+                </div>
+              </div>
+            ))
+          ) : (
+            <p>Não há horários cadastrados.</p>
+          )}
+          <button
+            className="form-login-button"
+            onClick={saveSchedule}
+            disabled={saving}
+          >
+            {saving ? "Salvando..." : "Salvar Alterações"}
+          </button>
+        </div>
       </div>
     </div>
   );
